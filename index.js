@@ -20,6 +20,15 @@ useCallback.reader(file, (err, data) => {
   if (err) {
     console.error(err);
   } else {
-    console.log(data);
+    data.lastname = 'Changed from a callback';
+    useCallback.writer(file, data, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        useCallback.reader(file, (err, newData) => { //re-read the file
+          console.log(JSON.stringify(newData) === JSON.stringify(DataView)); //confirms the file is changed.
+        });
+      }
+    });
   }
 });
